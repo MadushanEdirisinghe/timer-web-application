@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tempo - Smart Time Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i class="fa-regular fa-clock"></i>
+                <h1>Tempo</h1>
+            </div>
+            <div class="tagline">Smart Time Management</div>
+        </header>
+
+        <nav>
+            <ul class="tabs">
+                <li class="tab active" data-tab="reminders">
+                    <i class="fa-solid fa-bell"></i>
+                    <span>Reminders</span>
+                </li>
+                <li class="tab" data-tab="stopwatch">
+                    <i class="fa-solid fa-stopwatch"></i>
+                    <span>Stopwatch</span>
+                </li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="reminders" class="tab-content active">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-bell"></i> Reminders</h2>
+                    <button class="btn btn-primary" id="new-reminder-btn">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>New Reminder</span>
+                    </button>
+                </div>
+
+                <div class="card" id="reminder-form-card" style="display: none;">
+                    <h3 id="form-title">Create New Reminder</h3>
+                    <form id="reminder-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="hours">Hours</label>
+                                <input type="number" id="hours" min="0" max="23" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="minutes">Minutes</label>
+                                <input type="number" id="minutes" min="0" max="59" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="seconds">Seconds</label>
+                                <input type="number" id="seconds" min="0" max="59" value="0">
+                            </div>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="setDate">
+                            <label for="setDate">Set specific date</label>
+                        </div>
+
+                        <div class="form-group" id="date-picker-container" style="display: none;">
+                            <label for="day">Date</label>
+                            <input type="date" id="day">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="repeat">Repeat</label>
+                            <select id="repeat">
+                                <option value="none">One-time</option>
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-text" id="cancel-form-btn">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="submit-form-btn">
+                                <i class="fa-solid fa-check-circle"></i>
+                                <span id="submit-btn-text">Add Reminder</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card countdown-card">
+                    <h3>Countdown</h3>
+                    <div class="countdown-display">
+                        <span id="countdown-time">--:--:--</span>
+                    </div>
+                    <div id="active-countdown-info" style="display: none;">
+                        <div class="active-reminder-info">
+                            <span id="active-reminder-text">Active reminder: </span>
+                            <button class="btn btn-text" id="stop-countdown-btn">Stop</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="reminders-list-card">
+                    <div id="reminders-table-container">
+                        <table id="reminders-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Date</th>
+                                    <th>Repeat</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reminders-list">
+                                <!-- Reminders will be inserted here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="empty-reminders" style="display: none;">
+                        <i class="fa-solid fa-bell empty-icon"></i>
+                        <p class="empty-title">No reminders yet</p>
+                        <p class="empty-subtitle">Create your first reminder to get started</p>
+                        <button class="btn btn-text" id="empty-add-btn">
+                            Add reminder <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="stopwatch" class="tab-content">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-stopwatch"></i> Stopwatch</h2>
+                </div>
+
+                <div class="card stopwatch-card">
+                    <div class="stopwatch-display">
+                        <span id="stopwatch-time">00:00:00</span>
+                    </div>
+                    <div class="stopwatch-controls">
+                        <button class="btn btn-success" id="start-btn">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Start</span>
+                        </button>
+                        <button class="btn btn-warning" id="pause-btn" disabled>
+                            <i class="fa-solid fa-pause"></i>
+                            <span>Pause</span>
+                        </button>
+                        <button class="btn btn-neutral" id="reset-btn">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card tips-card">
+                    <h3>Tips</h3>
+                    <ul class="tips-list">
+                        <li>
+                            <div class="tip-dot"></div>
+                            <p>Click <strong>Start</strong> to begin timing.</p>
+                        </li>
+                        <li>
+                            <div class="tip-dot"></div>
+                            <p>Use <strong>Pause</strong> to temporarily stop the timer.</p>
+                        </li>
+                        <li>
+                            <div class="tip-dot"></div>
+                            <p>Click <strong>Reset</strong> to clear the timer back to zero.</p>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Tempo | Smart Time Management</p>
+        </footer>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
